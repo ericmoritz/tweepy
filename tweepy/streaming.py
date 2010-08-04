@@ -13,7 +13,7 @@ from tweepy.models import Status
 from tweepy.api import API
 from tweepy.error import TweepError
 
-from tweepy.utils import import_simplejson
+from tweepy.utils import import_simplejson, u
 json = import_simplejson()
 
 STREAM_VERSION = 1
@@ -32,7 +32,7 @@ class StreamListener(object):
         """
 
         if 'in_reply_to_status_id' in data:
-            status = Status.parse(self.api, json.loads(data))
+            status = Status.parse(self.api, json.loads(u(data)))
             if self.on_status(status) is False:
                 return False
         elif 'delete' in data:

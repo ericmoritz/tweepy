@@ -3,7 +3,7 @@
 # See LICENSE for details.
 
 from tweepy.models import ModelFactory
-from tweepy.utils import import_simplejson
+from tweepy.utils import import_simplejson, u
 from tweepy.error import TweepError
 
 
@@ -35,7 +35,7 @@ class JSONParser(Parser):
 
     def parse(self, method, payload):
         try:
-            json = self.json_lib.loads(payload)
+            json = self.json_lib.loads(u(payload))
         except Exception, e:
             raise TweepError('Failed to parse JSON payload: %s' % e)
 
@@ -46,7 +46,7 @@ class JSONParser(Parser):
             return json
 
     def parse_error(self, payload):
-        error = self.json_lib.loads(payload)
+        error = self.json_lib.loads(u(payload))
         if error.has_key('error'):
             return error['error']
         else:
